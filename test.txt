@@ -1,0 +1,2 @@
+hola mundo git 
+estoy aprendiendo a manejar la apliacion de git
