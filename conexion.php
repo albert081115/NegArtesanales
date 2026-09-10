@@ -11,7 +11,7 @@ try {
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     // Mensaje temporal para comprobar que funciona (luego lo puedes borrar)
-    echo "¡Conexión exitosa a la base de datos lista, jefe!";
+    echo "¡Conexión exitosa a la base de datos lista!";
     
 } catch(PDOException $e) {
     // Si algo falla, nos mostrará el error exacto
