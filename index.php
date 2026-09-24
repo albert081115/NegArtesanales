@@ -1,3 +1,17 @@
+
+<?php
+// 1. Mandamos llamar a tu archivo de conexión
+require_once 'conexion.php';
+
+// 2. Preparamos la consulta para traer los productos
+$sql = "SELECT * FROM productos";
+$stmt = $conexion->prepare($sql);
+$stmt->execute();
+
+// 3. Guardamos todos los resultados en una variable llamada $listaProductos
+$listaProductos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -26,59 +40,37 @@
         </div>
     </nav>
 
-    <!-- 2. Contenedor Principal del Catálogo -->
+<!-- 2. Contenedor Principal del Catálogo -->
     <div class="container">
         <h2 class="text-center mb-5 fw-bold">Piezas Disponibles</h2>
 
         <!-- Cuadrícula (Grid) para acomodar los productos -->
         <div class="row">
             
-            <!-- TARJETA DE PRODUCTO 1 -->
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <!-- Imagen de muestra -->
-                    <img src="./imagenes/vasija.jpg" class="card-img-top" alt="Cerámica" style="height: 250px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title fw-bold">Vasija de Barro Negro</h5>
-                        <p class="card-text text-muted">Pieza de cerámica tradicional torneada a mano y horneada en leña. Ideal para interiores.</p>
-                        <h4 class="text-dark mb-4">$450.00 MXN</h4>
-                        <!-- Botón de WhatsApp (mt-auto lo empuja siempre hasta abajo) -->
-                        <a href="#" class="btn btn-success mt-auto fw-bold">
-                            Cotizar por WhatsApp
-                        </a>
+            <?php foreach($listaProductos as $producto): ?>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <!-- Imprimimos la URL de la imagen y el nombre -->
+                        <img src="<?php echo $producto['imagen_url']; ?>" class="card-img-top" alt="<?php echo $producto['nombre']; ?>" style="height: 250px; object-fit: cover;">
+                        
+                        <div class="card-body d-flex flex-column">
+                            <!-- Imprimimos el nombre del producto -->
+                            <h5 class="card-title fw-bold"><?php echo $producto['nombre']; ?></h5>
+                            
+                            <!-- Imprimimos la descripción -->
+                            <p class="card-text text-muted"><?php echo $producto['descripcion']; ?></p>
+                            
+                            <!-- Imprimimos el precio -->
+                            <h4 class="text-dark mb-4">$<?php echo $producto['precio']; ?> MXN</h4>
+                            
+                            <!-- Botón de WhatsApp -->
+                            <a href="#" class="btn btn-success mt-auto fw-bold">Cotizar por WhatsApp</a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- TARJETA DE PRODUCTO 2 -->
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <img src="./imagenes/reboso.jpg" class="card-img-top" alt="Textil" style="height: 250px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title fw-bold">Rebozo de Telar de Cintura</h5>
-                        <p class="card-text text-muted">Tejido con hilos de algodón entintados con pigmentos naturales. Trabajo 100% artesanal.</p>
-                        <h4 class="text-dark mb-4">$850.00 MXN</h4>
-                        <a href="#" class="btn btn-success mt-auto fw-bold">
-                            Cotizar por WhatsApp
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TARJETA DE PRODUCTO 3 -->
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <img src="./imagenes/alebrije.jpg" class="card-img-top" alt="Madera" style="height: 250px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title fw-bold">Alebrije Tallado en Copal</h5>
-                        <p class="card-text text-muted">Pieza única tallada en madera de copal y pintada a mano con un diseño vibrante.</p>
-                        <h4 class="text-dark mb-4">$1,200.00 MXN</h4>
-                        <a href="#" class="btn btn-success mt-auto fw-bold">
-                            Cotizar por WhatsApp
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
 
         </div>
     </div>
