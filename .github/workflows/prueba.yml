@@ -1,7 +1,7 @@
 on:
   pull_request:
     branches:
-    - main
+      - master
 
 jobs:
   test:
@@ -9,34 +9,33 @@ jobs:
 
     steps:
       - name: Checkout repository
-      # github.com/actions en checkout es para
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
-# test Evalu una condicion y -f Comprueba que la ruta exista
-      - name: Verify index.html
+      # 1. Comprueba que el archivo principal index.php exista
+      - name: Verify index.php
         run: |
-          echo "Verificando index.html..."
-          test -f index.html
-          echo "Index.html encontrado."
+          echo "Verificando index.php..."
+          test -f index.php
+          echo "index.php encontrado."
 
-      - name: Verify styles.css
+      # 2. Comprueba que el archivo de conexión exista
+      - name: Verify conexion.php
         run: |
-          echo "Verificando styles.css..."
-          test -f styles/styles.css
-          echo "styles.css econtrado."
+          echo "Verificando conexion.php..."
+          test -f conexion.php
+          echo "conexion.php encontrado."
 
+      # 3. Verifica la estructura básica de HTML dentro de index.php
       - name: Verify HTML structure
         run: |
-          echo "Verificando estructura HTML..."
+          echo "Verificando estructura HTML en index.php..."
+          grep -qi "html" index.php
+          grep -qi "head" index.php
+          grep -qi "body" index.php
 
-          grep -qi "<html" index.html
-          grep -qi "<head" index.html
-          grep -qi "<body" index.html
-
-          echo "Estructura HTML basica correcta."
-# grep -q Busca un texto y comunica si lo encontre mediante un 
-      - name: Verefy CSS reference
-        run: | 
-          echo "Verificando referencia a styles.css..."
-          grep -q 'styles/styles.css' index.html
-          echo "referencia a styles.css encontrada."
+      # 4. Verifica que se esté importando Bootstrap
+      - name: Verify Bootstrap integration
+        run: |
+          echo "Verificando la referencia a Bootstrap..."
+          grep -qi "bootstrap" index.php
+          echo "Bootstrap CDN encontrado."
