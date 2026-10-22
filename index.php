@@ -1,3 +1,4 @@
+<?php require 'conexion.php'; ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -167,120 +168,43 @@
     </section>
 
 
-    <!-- ==================== CATEGORÍAS ==================== -->
+ <!-- ==================== CATEGORÍAS ==================== -->
+<section id="categorias" class="seccion-categorias">
 
-    <section id="categorias" class="seccion-categorias">
+    <div class="container">
 
-        <div class="container">
-
-            <div class="text-center mb-5">
-
-                <span class="seccion-etiqueta">
-                    EXPLORA
-                </span>
-
-                <h2>
-                    Nuestras categorías
-                </h2>
-
-                <p>
-                    Conoce algunas de las principales áreas de trabajo artesanal.
-                </p>
-
-            </div>
-
-
-            <div class="row g-4">
-
-                <!-- BARRO -->
-
-                <div class="col-md-4">
-
-                    <div class="categoria-card">
-
-                        <div class="categoria-icono">
-                            🏺
-                        </div>
-
-                        <h4>
-                            Barro y cerámica
-                        </h4>
-
-                        <p>
-                            Piezas elaboradas con técnicas tradicionales
-                            de modelado y cocción.
-                        </p>
-
-                        <a href="#productos">
-                            Ver productos →
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <!-- TEXTILES -->
-
-                <div class="col-md-4">
-
-                    <div class="categoria-card">
-
-                        <div class="categoria-icono">
-                            🧵
-                        </div>
-
-                        <h4>
-                            Textiles
-                        </h4>
-
-                        <p>
-                            Prendas y tejidos elaborados mediante técnicas
-                            artesanales tradicionales.
-                        </p>
-
-                        <a href="#productos">
-                            Ver productos →
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <!-- MADERA -->
-
-                <div class="col-md-4">
-
-                    <div class="categoria-card">
-
-                        <div class="categoria-icono">
-                            🪵
-                        </div>
-
-                        <h4>
-                            Madera
-                        </h4>
-
-                        <p>
-                            Figuras y piezas talladas y decoradas
-                            manualmente por artesanos.
-                        </p>
-
-                        <a href="#productos">
-                            Ver productos →
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
+        <div class="text-center mb-5">
+            <span class="seccion-etiqueta">EXPLORA</span>
+            <h2>Nuestras categorías</h2>
+            <p>Conoce algunas de las principales áreas de trabajo artesanal.</p>
         </div>
 
-    </section>
+        <div class="row g-4">
+            <?php
+            if (isset($conexion)) {
+                $sqlCatIndex = "SELECT Categorias.id_categoria, Categorias.nombre_categoria, Categorias.descripcion_categoria FROM Categorias";
+                $stmtCatIndex = $conexion->query($sqlCatIndex);
+                $categoriasIndex = $stmtCatIndex->fetchAll(PDO::FETCH_ASSOC);
 
+                foreach ($categoriasIndex as $catItem) {
+            ?>
+            <div class="col-md-4">
+                <div class="categoria-card">
+                    <div class="categoria-icono">🎨</div>
+                    <h4><?php echo htmlspecialchars($catItem['nombre_categoria']); ?></h4>
+                    <p><?php echo htmlspecialchars($catItem['descripcion_categoria']); ?></p>
+                    <a href="#productos">Ver productos →</a>
+                </div>
+            </div>
+            <?php 
+                }
+            } 
+            ?>
+        </div>
+
+    </div>
+
+</section>  
 
     <!-- ==================== PRODUCTOS ==================== -->
 
@@ -306,156 +230,38 @@
 
 
             <div class="row g-4">
+    <?php
+    $sql = "SELECT Productos.id_producto, Productos.nombre_producto, Productos.descripcion_producto, Productos.precio, Productos.imagen_url, Categorias.nombre_categoria FROM Productos INNER JOIN Categorias ON Productos.id_categoria = Categorias.id_categoria";
+    $stmt = $conexion->query($sql);
+    $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-                <!-- PRODUCTO 1 -->
-
-                <div class="col-md-6 col-lg-4">
-
-                    <div class="producto-card">
-
-                        <div class="producto-imagen">
-
-                            <img src="./imagenes/vasija.jpg"
-                                alt="Vasija de barro negro">
-
-                            <span class="producto-categoria">
-                                Cerámica
-                            </span>
-
-                        </div>
-
-                        <div class="producto-contenido">
-
-                            <h4>
-                                Vasija de Barro Negro
-                            </h4>
-
-                            <p>
-                                Pieza de cerámica tradicional torneada
-                                a mano y horneada en leña.
-                            </p>
-
-                            <div class="producto-pie">
-
-                                <strong>
-                                    $450.00 MXN
-                                </strong>
-
-                                <a href="#contacto"
-                                    class="btn btn-sm btn-artesanal">
-                                    Cotizar
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- PRODUCTO 2 -->
-
-                <div class="col-md-6 col-lg-4">
-
-                    <div class="producto-card">
-
-                        <div class="producto-imagen">
-
-                            <img src="./imagenes/reboso.jpg"
-                                alt="Rebozo artesanal">
-
-                            <span class="producto-categoria">
-                                Textil
-                            </span>
-
-                        </div>
-
-                        <div class="producto-contenido">
-
-                            <h4>
-                                Rebozo de Telar de Cintura
-                            </h4>
-
-                            <p>
-                                Tejido con hilos de algodón y elaborado
-                                mediante técnicas artesanales.
-                            </p>
-
-                            <div class="producto-pie">
-
-                                <strong>
-                                    $850.00 MXN
-                                </strong>
-
-                                <a href="#contacto"
-                                    class="btn btn-sm btn-artesanal">
-                                    Cotizar
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- PRODUCTO 3 -->
-
-                <div class="col-md-6 col-lg-4">
-
-                    <div class="producto-card">
-
-                        <div class="producto-imagen">
-
-                            <img src="./imagenes/alebrije.jpg"
-                                alt="Alebrije tallado en copal">
-
-                            <span class="producto-categoria">
-                                Madera
-                            </span>
-
-                        </div>
-
-                        <div class="producto-contenido">
-
-                            <h4>
-                                Alebrije Tallado en Copal
-                            </h4>
-
-                            <p>
-                                Pieza única tallada en madera de copal
-                                y pintada completamente a mano.
-                            </p>
-
-                            <div class="producto-pie">
-
-                                <strong>
-                                    $1,200.00 MXN
-                                </strong>
-
-                                <a href="#contacto"
-                                    class="btn btn-sm btn-artesanal">
-                                    Cotizar
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+    foreach ($productos as $producto) {
+        $numeroWhatsApp = "5215555555555"; 
+        $mensajeBase = "Hola, me interesa cotizar el producto: " . $producto['nombre_producto'];
+        $enlaceWhatsApp = "https://wa.me/" . $numeroWhatsApp . "?text=" . urlencode($mensajeBase);
+    ?>
+    <div class="col-md-6 col-lg-4">
+        <div class="producto-card">
+            <div class="producto-imagen">
+                <img src="<?php echo htmlspecialchars($producto['imagen_url']); ?>" alt="<?php echo htmlspecialchars($producto['nombre_producto']); ?>">
+                <span class="producto-categoria">
+                    <?php echo htmlspecialchars($producto['nombre_categoria']); ?>
+                </span>
             </div>
-
+            <div class="producto-contenido">
+                <h4><?php echo htmlspecialchars($producto['nombre_producto']); ?></h4>
+                <p><?php echo htmlspecialchars($producto['descripcion_producto']); ?></p>
+                <div class="producto-pie">
+                    <strong>$<?php echo number_format($producto['precio'], 2); ?> MXN</strong>
+                    <a href="<?php echo $enlaceWhatsApp; ?>" target="_blank" class="btn btn-sm btn-artesanal">
+                        Cotizar
+                    </a>
+                </div>
+            </div>
         </div>
-
-    </section>
+    </div>
+    <?php } ?>
+</div>
 
 
     <!-- ==================== PROCESO ==================== -->
