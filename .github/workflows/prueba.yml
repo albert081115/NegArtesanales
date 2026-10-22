@@ -1,0 +1,41 @@
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 1. Comprueba que el archivo principal index.php exista
+      - name: Verify index.php
+        run: |
+          echo "Verificando index.php..."
+          test -f index.php
+          echo "index.php encontrado."
+
+      # 2. Comprueba que el archivo de conexión exista
+      - name: Verify conexion.php
+        run: |
+          echo "Verificando conexion.php..."
+          test -f conexion.php
+          echo "conexion.php encontrado."
+
+      # 3. Verifica la estructura básica de HTML dentro de index.php
+      - name: Verify HTML structure
+        run: |
+          echo "Verificando estructura HTML en index.php..."
+          grep -qi "html" index.php
+          grep -qi "head" index.php
+          grep -qi "body" index.php
+
+      # 4. Verifica que se esté importando Bootstrap
+      - name: Verify Bootstrap integration
+        run: |
+          echo "Verificando la referencia a Bootstrap..."
+          grep -qi "bootstrap" index.php
+          echo "Bootstrap CDN encontrado."
