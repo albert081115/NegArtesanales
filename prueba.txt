@@ -1,0 +1,1 @@
+Prueba de comandos Git en el proyecto NegArtesanales
