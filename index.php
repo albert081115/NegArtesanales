@@ -1,4 +1,17 @@
-<?php require 'conexion.php'; ?>
+
+<?php
+// 1. Mandamos llamar a tu archivo de conexión
+require_once 'conexion.php';
+
+// 2. Preparamos la consulta para traer los productos
+$sql = "SELECT * FROM productos";
+$stmt = $conexion->prepare($sql);
+$stmt->execute();
+
+// 3. Guardamos todos los resultados en una variable llamada $listaProductos
+$listaProductos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -67,46 +80,37 @@
 
     </nav>
 
+<!-- 2. Contenedor Principal del Catálogo -->
+    <div class="container">
+        <h2 class="text-center mb-5 fw-bold">Piezas Disponibles</h2>
 
-    <!-- ==================== INICIO ==================== -->
-
-    <header id="inicio" class="hero-artesanal">
-
-        <div class="container">
-
-            <div class="row align-items-center">
-
-                <div class="col-lg-7">
-
-                    <span class="hero-etiqueta">
-                        ARTESANÍA MEXICANA
-                    </span>
-
-                    <h1>
-                        Tradición y creatividad
-                        <span>en cada pieza</span>
-                    </h1>
-
-                    <p>
-                        Descubre productos elaborados a mano por artesanos,
-                        conservando técnicas tradicionales y diseños únicos.
-                    </p>
-
-                    <div class="hero-botones">
-
-                        <a href="#productos" class="btn btn-artesanal">
-                            Ver productos
-                        </a>
-
-                        <a href="#nosotros" class="btn btn-outline-light">
-                            Conócenos
-                        </a>
-
+        <!-- Cuadrícula (Grid) para acomodar los productos -->
+        <div class="row">
+            
+            <?php foreach($listaProductos as $producto): ?>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <!-- Imprimimos la URL de la imagen y el nombre -->
+                        <img src="<?php echo $producto['imagen_url']; ?>" class="card-img-top" alt="<?php echo $producto['nombre']; ?>" style="height: 250px; object-fit: cover;">
+                        
+                        <div class="card-body d-flex flex-column">
+                            <!-- Imprimimos el nombre del producto -->
+                            <h5 class="card-title fw-bold"><?php echo $producto['nombre']; ?></h5>
+                            
+                            <!-- Imprimimos la descripción -->
+                            <p class="card-text text-muted"><?php echo $producto['descripcion']; ?></p>
+                            
+                            <!-- Imprimimos el precio -->
+                            <h4 class="text-dark mb-4">$<?php echo $producto['precio']; ?> MXN</h4>
+                            
+                            <!-- Botón de WhatsApp -->
+                            <a href="#" class="btn btn-success mt-auto fw-bold">Cotizar por WhatsApp</a>
+                        </div>
                     </div>
-
                 </div>
 
-            </div>
+            <?php endforeach; ?>
 
         </div>
 
