@@ -11,21 +11,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 1. Comprueba que el archivo principal index.php exista
+      # 1. Comprueba que el archivo principal index.php exista.
       - name: Verify index.php
         run: |
           echo "Verificando index.php..."
           test -f index.php
           echo "index.php encontrado."
 
-      # 2. Comprueba que el archivo de conexión exista
+      # 2. Comprueba que el archivo de conexión exista.
       - name: Verify conexion.php
         run: |
           echo "Verificando conexion.php..."
           test -f conexion.php
           echo "conexion.php encontrado."
 
-      # 3. Verifica la estructura básica de HTML dentro de index.php
+      # 3. Verifica la estructura básica de HTML dentro de index.php.
       - name: Verify HTML structure
         run: |
           echo "Verificando estructura HTML en index.php..."
