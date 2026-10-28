@@ -4,7 +4,7 @@
 require_once 'conexion.php';
 
 // 2. Preparamos la consulta para traer los productos
-$sql = "SELECT * FROM productos";
+$sql = "SELECT * FROM productos ORDER BY nombre ASC";
 $stmt = $conexion->prepare($sql);
 $stmt->execute();
 
