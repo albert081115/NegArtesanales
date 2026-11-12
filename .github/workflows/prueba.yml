@@ -39,3 +39,5 @@ jobs:
           echo "Verificando la referencia a Bootstrap..."
           grep -qi "bootstrap" index.php
           echo "Bootstrap CDN encontrado."
+
+#comentario para mi practica de git
