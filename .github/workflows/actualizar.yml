@@ -1,0 +1,24 @@
+name: testPush
+
+on:
+  push:
+    branches:
+      - prog2
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Commit and push changes
+        uses: stefanweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Archivos Actualizados
+          commit_user_name: prog2
+          commit_user_email: L23070005@huetamo.tecnm.mx
+          commit_author: Gerardo Avilez <L23070005@huetamo.tecnm.mx>
